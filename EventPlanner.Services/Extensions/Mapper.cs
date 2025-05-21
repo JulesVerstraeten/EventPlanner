@@ -4,6 +4,7 @@ using EventPlanner.Api.Contracts.Task;
 using EventPlanner.Domain.Enums;
 using EventPlanner.Persistence;
 using EventPlanner.Persistence.Models;
+using Microsoft.EntityFrameworkCore;
 using Task = EventPlanner.Persistence.Models.Task;
 
 namespace EventPlanner.Services.Extensions;
@@ -15,14 +16,23 @@ public class Mapper()
     // Api Request to MySQL Entity
     public static LocationResponse ToContract(Location entity)
     {
-        return new LocationResponse()
+        try
         {
-            Id = entity.Id,
-            Name = entity.Name,
-            Description = entity.Description,
-            GpsLat = entity.GpsLat,
-            GpsLon = entity.GpsLon,
-        };
+            return new LocationResponse()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                GpsLat = entity.GpsLat,
+                GpsLon = entity.GpsLon,
+            };
+
+
+        }
+        catch (Exception)
+        {
+            throw new Exception("Could not convert to location contract");
+        }
     }
     public static Location ToEntity(LocationRequest request)
     {
@@ -50,7 +60,7 @@ public class Mapper()
         }
         catch (Exception e)
         {
-            throw new Exception("Couldn't make a contract", e);
+            throw new Exception("Couldn't make a event contract", e);
         }
     }
     public static Event ToEntity(EventRequest request, EventContext context)
@@ -81,7 +91,7 @@ public class Mapper()
     }
     public static Task ToEntity(TaskRequest request, EventContext context)
     {
-        var eventEntity = context.Events.Find(request.EventId);
+        var eventEntity = context.Events.Include(o => o.Location).FirstOrDefault(o => o.Id == request.EventId);
         if (eventEntity == null) throw new Exception("Event not found");
 
         var importance = request.Importance switch

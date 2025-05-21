@@ -11,6 +11,7 @@ public class TaskService(EventContext context, IAuditTrailService auditTrailServ
 {
     public async Task<List<TaskResponse>> GetAllTasksFromEventId(int eventId)
     {
+        // TODO: Nieuwe class implementeren en in event service zetten
         // Get all tasks from event
         var tasks = await context.Tasks
             .Include(x => x.Event)
@@ -96,6 +97,7 @@ public class TaskService(EventContext context, IAuditTrailService auditTrailServ
         }
         catch (Exception)
         {
+            // Rollback
             context.Tasks.Remove(entity);
             await context.SaveChangesAsync();
             throw new Exception("Audit logging failed");
