@@ -9,6 +9,30 @@ namespace EventPlanner.Services;
 
 public class EventService(EventContext context, IAuditTrailService auditTrailService) : IEventService
 {
+    public async Task<EventTasksResponse> GetAllTasksFromEventId(int eventId)
+    {
+        // Get all tasks from event
+        var tasksEntity = await context.Tasks
+            .Include(x => x.Event)
+            .Include(x => x.Event.Location)
+            .Where(x => x.Event.Id == eventId)
+            .ToListAsync(); 
+        var tasksResponse = Mapper.ToContract(tasksEntity);
+        if (tasksResponse == null) throw new Exception("Event not found");
+        
+        // Audit logger with exception
+        try
+        {
+            await auditTrailService.LogAsyncList(AuditAction.Read, AuditSubject.Task, tasksEntity, null);
+        }
+        catch (Exception)
+        {
+            throw new Exception("Audit logging failed");
+        }
+        
+        // Return all tasks from event
+        return tasksResponse;
+    }
     public async Task<List<EventResponse>> GetAllEventsAsync()
     {
         // Fetch all events

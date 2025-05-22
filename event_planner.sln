@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Domain", "Even
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Persistence.MongoDb", "EventPlanner.Persistence.MongoDb\EventPlanner.Persistence.MongoDb.csproj", "{1715F57E-7EAE-4517-83C0-3314A5FC07EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAuditTrail", "TestAuditTrail\TestAuditTrail.csproj", "{9884ECB9-BD0D-42F4-B5E0-7872248566EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Dapper.Reporting", "EventPlanner.Dapper.Reporting\EventPlanner.Dapper.Reporting.csproj", "{413213A9-7DE3-4DFC-A136-4AD15D79285D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +44,9 @@ Global
 		{1715F57E-7EAE-4517-83C0-3314A5FC07EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1715F57E-7EAE-4517-83C0-3314A5FC07EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1715F57E-7EAE-4517-83C0-3314A5FC07EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9884ECB9-BD0D-42F4-B5E0-7872248566EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9884ECB9-BD0D-42F4-B5E0-7872248566EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9884ECB9-BD0D-42F4-B5E0-7872248566EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9884ECB9-BD0D-42F4-B5E0-7872248566EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413213A9-7DE3-4DFC-A136-4AD15D79285D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413213A9-7DE3-4DFC-A136-4AD15D79285D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413213A9-7DE3-4DFC-A136-4AD15D79285D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413213A9-7DE3-4DFC-A136-4AD15D79285D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

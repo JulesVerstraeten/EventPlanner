@@ -4,6 +4,7 @@ namespace EventPlanner.Services.Interfaces;
 
 public interface IEventService
 {
+    Task<EventTasksResponse> GetAllTasksFromEventId(int eventId);
     Task<List<EventResponse>> GetAllEventsAsync();
     Task<EventResponse?> GetEventByIdAsync(int id);
     Task<EventResponse> CreateEventAsync(EventRequest eventRequest);

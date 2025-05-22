@@ -5,11 +5,7 @@ namespace EventPlanner.Api.Contracts.Event;
 
 public class EventTasksResponse
 {
-    public required int Id { get; set; }
-    public required LocationResponse Location { get; set; }
-    public required string Name { get; set; }
-    public required DateTime Start { get; set; }
-    public required DateTime End { get; set; }
+    public required EventResponse Event { get; set; }
     public required List<EventTask> EventTasks { get; set; }
 }
 

@@ -46,7 +46,7 @@ public class LocationService(EventContext context, IAuditTrailService auditTrail
         {
             await auditTrailService.LogAsyncSingle(AuditAction.Create, AuditSubject.Location, null, entity);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Rollback
             context.Locations.Remove(entity);
@@ -80,7 +80,7 @@ public class LocationService(EventContext context, IAuditTrailService auditTrail
         {
             await auditTrailService.LogAsyncSingle(AuditAction.Update, AuditSubject.Location, oldEntity, newEntity);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Rollback
             context.Locations.Update(oldEntity);
@@ -106,7 +106,7 @@ public class LocationService(EventContext context, IAuditTrailService auditTrail
         {
             await auditTrailService.LogAsyncSingle(AuditAction.Delete, AuditSubject.Location, entity, null);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Rollback
             await context.Locations.AddAsync(entity);

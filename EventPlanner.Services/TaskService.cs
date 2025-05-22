@@ -1,4 +1,5 @@
-﻿using EventPlanner.Api.Contracts.Task;
+﻿using EventPlanner.Api.Contracts.Event;
+using EventPlanner.Api.Contracts.Task;
 using EventPlanner.Domain.Enums;
 using EventPlanner.Persistence;
 using EventPlanner.Services.Extensions;
@@ -9,32 +10,6 @@ namespace EventPlanner.Services;
 
 public class TaskService(EventContext context, IAuditTrailService auditTrailService) : ITaskService
 {
-    public async Task<List<TaskResponse>> GetAllTasksFromEventId(int eventId)
-    {
-        // TODO: Nieuwe class implementeren en in event service zetten
-        // Get all tasks from event
-        var tasks = await context.Tasks
-            .Include(x => x.Event)
-            .Include(x => x.Event.Location)
-            .Where(x => x.Event.Id == eventId)
-            .Select(o => Mapper.ToContract(o))
-            .ToListAsync(); 
-        if (tasks == null) throw new Exception("Event not found");
-        
-        // Audit logger with exception
-        try
-        {
-            await auditTrailService.LogAsyncList(AuditAction.Read, AuditSubject.Task, tasks, null);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Audit logging failed");
-        }
-        
-        // Return all tasks from event
-        return tasks;
-    }
-    
     public async Task<List<TaskResponse>> GetAllTasks()
     {
         // Get all tasks from DB

@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EventPlanner.Persistence.MongoDb\EventPlanner.Persistence.MongoDb.csproj" />
-      <ProjectReference Include="..\EventPlanner.Persistence.MySQL\EventPlanner.Persistence.MySQL.csproj" />
+      <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="MySqlConnector" Version="2.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EventPlanner.Domain\EventPlanner.Domain.csproj" />
     </ItemGroup>
 
 </Project>

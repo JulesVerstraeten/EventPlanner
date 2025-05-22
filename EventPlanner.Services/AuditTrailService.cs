@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
+using EventPlanner.Api.Contracts.AuditTrail;
 using EventPlanner.Domain.Enums;
+using EventPlanner.Domain.Models;
 using EventPlanner.Persistence.MongoDb;
-using EventPlanner.Persistence.MongoDb.Models;
 using EventPlanner.Services.Extensions;
 using EventPlanner.Services.Interfaces;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace EventPlanner.Services;
 
@@ -19,8 +21,8 @@ public class AuditTrailService(MongoDbContext context) : IAuditTrailService
                 Subject = subject.ToString(),
                 Action = action.ToString(),
                 EntryDate = DateTime.UtcNow,
-                OldValues = oldValues != null ? Converter.ToBson(oldValues) : null,
-                NewValues = newValues != null ? Converter.ToBson(newValues) : null
+                OldValues = oldValues != null ? Converter.ToBson(oldValues) : BsonNull.Value,
+                NewValues = newValues != null ? Converter.ToBson(newValues) : BsonNull.Value,
             };
             
             await context.AuditTrail.InsertOneAsync(log);
@@ -30,7 +32,6 @@ public class AuditTrailService(MongoDbContext context) : IAuditTrailService
             throw new Exception("Failed to log in MongoDB");
         }
     }
-    
     public async Task LogAsyncList<T>(AuditAction action, AuditSubject subject, List<T>? oldValues, List<T>? newValues)
     {
         try
@@ -40,8 +41,8 @@ public class AuditTrailService(MongoDbContext context) : IAuditTrailService
                 Subject = subject.ToString(),
                 Action = action.ToString(),
                 EntryDate = DateTime.UtcNow,
-                OldValues = oldValues != null ? Converter.ToBson(oldValues) : null,
-                NewValues = newValues != null ? Converter.ToBson(newValues) : null
+                OldValues = oldValues != null ? Converter.ToBson(oldValues) : BsonNull.Value,
+                NewValues = newValues != null ? Converter.ToBson(newValues) : BsonNull.Value
             };
             
             await context.AuditTrail.InsertOneAsync(log);
@@ -50,5 +51,26 @@ public class AuditTrailService(MongoDbContext context) : IAuditTrailService
         {
             throw new Exception("Failed to log in MongoDB");
         }
+    }
+    public async Task<IEnumerable<AuditTrailResponse>> GetAuditLogsAsync(string? action, string? subject)
+    {
+        var filterBuilder = Builders<AuditTrail>.Filter;
+        var filters = new List<FilterDefinition<AuditTrail>>();
+
+        if (!string.IsNullOrEmpty(subject))
+        {
+            filters.Add(filterBuilder.Eq(e => e.Subject, subject));
+        }
+        
+        if (!string.IsNullOrEmpty(action))
+        {
+            filters.Add(filterBuilder.Eq(e => e.Action, action));
+        }
+        
+        var filter = filters.Any() ? filterBuilder.And(filters) : FilterDefinition<AuditTrail>.Empty;
+        var logsEntity = await context.AuditTrail.Find(filter).ToListAsync();
+        var logs = logsEntity.Select(o => Mapper.ToContract(o));
+        
+        return logs;
     }
 }

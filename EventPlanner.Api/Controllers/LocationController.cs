@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using EventPlanner.Api.Contracts.Location;
 using EventPlanner.Domain.Enums;
-using EventPlanner.Persistence.MongoDb.Models;
 using EventPlanner.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;

@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Nodes;
-using EventPlanner.Domain.Enums;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
-namespace EventPlanner.Persistence.MongoDb.Models;
+namespace EventPlanner.Domain.Models;
 
 public class AuditTrail
 {
@@ -10,6 +8,6 @@ public class AuditTrail
     public required DateTime EntryDate { get; set; }
     public required string Subject { get; set; }
     public required string Action { get; set; }
-    public required BsonArray? OldValues { get; set; }
-    public required BsonArray? NewValues { get; set; }
+    public required BsonValue OldValues { get; set; }
+    public required BsonValue NewValues { get; set; }
 }

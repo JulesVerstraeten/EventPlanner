@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EventPlanner.Api.Contracts\EventPlanner.Api.Contracts.csproj" />
+      <ProjectReference Include="..\EventPlanner.Dapper.Reporting\EventPlanner.Dapper.Reporting.csproj" />
       <ProjectReference Include="..\EventPlanner.Persistence.MongoDb\EventPlanner.Persistence.MongoDb.csproj" />
       <ProjectReference Include="..\EventPlanner.Persistence.MySQL\EventPlanner.Persistence.MySQL.csproj" />
     </ItemGroup>

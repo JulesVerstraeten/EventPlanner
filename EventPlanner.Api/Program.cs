@@ -17,6 +17,7 @@ builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IAuditTrailService, AuditTrailService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 

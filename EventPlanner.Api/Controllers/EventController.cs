@@ -7,7 +7,7 @@ namespace EventPlanner.Api.Controllers;
 
 [ApiController]
 [Route("api/events")]
-public class EventController(IEventService eventService, ITaskService taskService) : ControllerBase
+public class EventController(IEventService eventService) : ControllerBase
 {
     // Geeft Alle Events Mee
     [HttpGet]
@@ -91,7 +91,7 @@ public class EventController(IEventService eventService, ITaskService taskServic
     {
         try
         {
-            var result = await taskService.GetAllTasksFromEventId(eventId);
+            var result = await eventService.GetAllTasksFromEventId(eventId);
             return Ok(result);
         }
         catch (Exception ex)

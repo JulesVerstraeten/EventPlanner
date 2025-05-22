@@ -1,4 +1,4 @@
-﻿using EventPlanner.Persistence.MongoDb.Models;
+﻿using EventPlanner.Domain.Models;
 using MongoDB.Driver;
 
 namespace EventPlanner.Persistence.MongoDb;
