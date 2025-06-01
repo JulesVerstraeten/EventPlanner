@@ -11,5 +11,5 @@ public interface ITaskService
     Task<TaskResponse> CreateTask(TaskRequest task);
     Task<bool> UpdateTask(int id, TaskRequest taskRequest);
     Task<bool> DeleteTask(int id);
-    Task<bool> PatchStatus(int id, Status newStatus);
+    Task<bool> PatchStatus(int id, NewStatusRequest newNewStatus);
 }

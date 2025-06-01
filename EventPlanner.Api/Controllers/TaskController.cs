@@ -88,11 +88,11 @@ public class TaskController(ITaskService service) : ControllerBase
 
     // Update status
     [HttpPatch("{id:int}/status")]
-    public async Task<ActionResult<TaskResponse>> PatchStatus(int id, [FromBody] Status newStatus)
+    public async Task<ActionResult<TaskResponse>> PatchStatus(int id, [FromBody] NewStatusRequest newNewStatus)
     {
         try
         {
-            var success = await service.PatchStatus(id, newStatus);
+            var success = await service.PatchStatus(id, newNewStatus);
             if (!success) return NotFound($"Task with id {id} not found");
             return Ok(success);
         }

@@ -14,4 +14,18 @@ public class Task
     public required Importance Importance { get; set; }
     public required Status Status { get; set; }
     public required DateTime DeadlineDateTime { get; set; }
+    public Task Clone()
+    {
+        return new Task()
+        {
+            Id = this.Id,
+            Event = this.Event,
+            Name = this.Name,
+            Description = this.Description,
+            Importance = this.Importance,
+            Status = this.Status,
+            DeadlineDateTime = this.DeadlineDateTime
+        };
+    }
 }
+

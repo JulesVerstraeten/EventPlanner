@@ -5,6 +5,7 @@ using EventPlanner.Persistence;
 using EventPlanner.Services.Extensions;
 using EventPlanner.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Task = EventPlanner.Persistence.Models.Task;
 
 namespace EventPlanner.Services;
 
@@ -150,14 +151,38 @@ public class TaskService(EventContext context, IAuditTrailService auditTrailServ
         return true;
     }
 
-    public async Task<bool> PatchStatus(int id, Status newStatus)
+    public async Task<bool> PatchStatus(int id, NewStatusRequest newStatus)
     {
-        var entity = await context.Tasks.FindAsync(id);
-        if (entity == null) throw new Exception("Task not found");
+        // TODO: Alles moet zoals dit zijn
         
-        entity.Status = newStatus;
-        
+        Status status = newStatus.NewStatus switch
+        {
+            "Todo" => Status.Todo,
+            "Doing" => Status.Doing,
+            "Done" => Status.Done,
+            "Cancelled" => Status.Cancelled,
+            _ => throw new Exception("Invalid status")
+        };
+
+        await using var transaction = await context.Database.BeginTransactionAsync();
+
+        var entity = await context.Tasks.Include(t => t.Event).FirstOrDefaultAsync(t => t.Id == id);
+        if (entity == null) throw new KeyNotFoundException("Task not found");
+        var oldSnapshot = entity.Clone();
+        entity.Status = status;
         await context.SaveChangesAsync();
+
+        try
+        {
+            await auditTrailService.LogAsyncSingle(AuditAction.Update, AuditSubject.Task, oldSnapshot, entity);
+            await transaction.CommitAsync();
+
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw new Exception("Audit logging failed");
+        }
         
         return true;
     }
